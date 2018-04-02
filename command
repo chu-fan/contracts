@@ -1,13 +1,12 @@
 
 geth --datadir data1 init genesis.json
 
-geth --networkid 1304637164 --nodiscover --datadir data1 --rpc --rpcapi net,eth,web3,personal --rpcaddr 192.168.1.147 console 
+geth --networkid netwoekid --nodiscover --datadir data1 --rpc --rpcapi net,eth,web3,personal --rpcaddr internetaddress console 
 
 geth --datadir data2 init genesis.json
 
-geth --networkid 1304637164 --nodiscover --datadir data2 --port 61911 --rpcapi net,eth,web3,personal --rpc  --rpcaddr 192.168.1.148 --rpcport 8101 console 
+geth --networkid netwoekid --nodiscover --datadir data2 --port 61911 --rpcapi net,eth,web3,personal --rpc  --rpcaddr internetaddress --rpcport 8101 console 
 
-geth --networkid 1304637164 --nodiscover --datadir data2 --port 61911 --rpcapi net,eth,web3,personal --rpc  --rpcaddr 192.168.1.148 --rpcport 8101 --bootnodes "enode://f1d46ae1e0ecf10fbe30f93cc4c6d72eceaaa33be637e951044142c7aa1f5ab21e8ac05fc2e8b2de25abb5f89b675bc6117d957399947cc9440a4e9ce6d1973b@192.168.1.147:30303" console
 eth.accounts
 
 eth.getBalance("0x5a9cb33978af1b2f764fb75425f6959474e3138e")
