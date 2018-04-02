@@ -1,1 +1,76 @@
 
+geth --datadir data1 init genesis.json
+
+geth --networkid 1304637164 --nodiscover --datadir data1 --rpc --rpcapi net,eth,web3,personal --rpcaddr 192.168.1.147 console 
+
+geth --datadir data2 init genesis.json
+
+geth --networkid 1304637164 --nodiscover --datadir data2 --port 61911 --rpcapi net,eth,web3,personal --rpc  --rpcaddr 192.168.1.148 --rpcport 8101 console 
+
+geth --networkid 1304637164 --nodiscover --datadir data2 --port 61911 --rpcapi net,eth,web3,personal --rpc  --rpcaddr 192.168.1.148 --rpcport 8101 --bootnodes "enode://f1d46ae1e0ecf10fbe30f93cc4c6d72eceaaa33be637e951044142c7aa1f5ab21e8ac05fc2e8b2de25abb5f89b675bc6117d957399947cc9440a4e9ce6d1973b@192.168.1.147:30303" console
+eth.accounts
+
+eth.getBalance("0x5a9cb33978af1b2f764fb75425f6959474e3138e")
+
+eth.getBlock(11)
+
+eth.getTransaction("0x3c7b098b487483cb0ed1f6430824d8bdedd4a169b3940105ffae126e53fecd19")
+
+eth.blockNumber
+
+#转账
+eth.sendTransaction({from:eth.accounts[0],to:"0x587e57a516730381958f86703b1f8e970ff445d9",value:web3.toWei(3,"ether")})
+
+personal.unlockAccount(eth.accounts[0])
+
+使用
+txpool.status
+可以看到交易状态
+
+miner.stop()
+
+miner.start(1)
+
+miner.setEtherbase(eth.accounts[1])
+
+
+admin.nodeInfo
+
+admin.peers
+
+admin.addPeer("enode://9e86289ea859ca041f235aed87a091d0cd594b377cbe13e1c5f5a08a8a280e62d4019ac54063ed6a1d0e3c3eaedad0b73c40b99a16a176993f0373ffe92be672@127.0.0.1:30304")
+
+net.peerCount
+
+
+在终端中使用solc编译智能合约，编译文件后缀.sol
+
+solc --optimize --abi test.sol
+solc --optimize --bin test.sol
+
+现在就可以在区块链中创建一个合约了。创建合约的方式是发送一个交易，交易的目的地>址是空地址，数据是前面JSON结构中的code字段。
+在控制台中创建合约的流程如下
+
+primaryAddress = eth.accounts[0]
+abi = [{ constant: false, inputs: [{ name: 'a', type: 'uint256' } ]}]
+MyContract = eth.contract(abi)
+contract = MyContract.new(arg1, arg2, ..., {from: primaryAddress, data: evmByteCodeFromPreviousSection,gas:300000}) //arg1,arg2,...是构造参数，这里没有，需要>去掉。红色部分用前面生成的code代替
+
+myMultiply7 = myContract.new({from:eth.accounts[1],data:"0x60606040523415600e57600080fd5b609a8061001c6000396000f300606060405260043610603e5763ffffffff7c0100000000000000000000000000000000000000000000000000000000600035041663c6888fa181146043575b600080fd5b3415604d57600080fd5b60566004356068565b60405190815260200160405180910390f35b600702905600a165627a7a72305820c7765814536b5fad7e8a5d2874564296389afaf3c17e15eb93df738905bd01350029",gas:300000})
+
+txpool.status
+miner.start(1)
+
+m7 = myContract.at(myMultiply7.address)
+
+m7.multiply.call(3)
+m7.multiply.sendTransaction(3, {from:eth.accounts[1]})
+
+在其他节点调用该合约
+
+需要合约的 abi address
+
+address: "0x20fc70a09b75030147e8aa94adfc1535265ad10d"
+
+mm7 = eth.contract(abi).at(address)
+
