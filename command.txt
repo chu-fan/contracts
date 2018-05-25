@@ -74,6 +74,3 @@ address: "0x20fc70a09b75030147e8aa94adfc1535265ad10d"
 
 mm7 = eth.contract(abi).at(address)
 
-
-
-
