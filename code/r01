@@ -1,0 +1,60 @@
+abi
+[{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
+
+bin
+608060405234801561001057600080fd5b5060df8061001f6000396000f3006080604052600436106049576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806360fe47b114604e5780636d4ce63c146078575b600080fd5b348015605957600080fd5b5060766004803603810190808035906020019092919050505060a0565b005b348015608357600080fd5b50608a60aa565b6040518082815260200191505060405180910390f35b8060008190555050565b600080549050905600a165627a7a723058204189dc7860f683bfb02a57c0d94fabacc5b889c49fcb5f63879c3d3d9230b4c90029
+
+
+my_storage
+{
+  abi: [{
+      constant: false,
+      inputs: [{...}],
+      name: "set",
+      outputs: [],
+      payable: false,
+      stateMutability: "nonpayable",
+      type: "function"
+  }, {
+      constant: true,
+      inputs: [],
+      name: "get",
+      outputs: [{...}],
+      payable: false,
+      stateMutability: "view",
+      type: "function"
+  }],
+  address: "0xfa7ec3866b4348c3c06b5f5c80a8d65ae49d493e",
+  transactionHash: "0x157a7c2c01b006e305a206fa22231e7975b784a76e15021a6e10328f6d0cd1dc",
+  allEvents: function(),
+  get: function(),
+  set: function()
+}
+
+
+step :
+
+abi = [{"constant":false,"inputs":[{"name":"x","type":"uint256"}],"name":"set","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"get","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
+
+bin = "0x608060405234801561001057600080fd5b5060df8061001f6000396000f3006080604052600436106049576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806360fe47b114604e5780636d4ce63c146078575b600080fd5b348015605957600080fd5b5060766004803603810190808035906020019092919050505060a0565b005b348015608357600080fd5b50608a60aa565b6040518082815260200191505060405180910390f35b8060008190555050565b600080549050905600a165627a7a723058204189dc7860f683bfb02a57c0d94fabacc5b889c49fcb5f63879c3d3d9230b4c90029"
+
+personal.unlockAccount(eth.accounts[1])
+
+my_storage = eth.contract(abi).new({from:eth.accounts[1],data:bin,gas:300000})
+
+miner.start(1)
+miner.stop()
+
+my_instance_storage = eth.contract(abi).at(my_storage.address)
+
+my_instance_storage.get()#取回数值
+
+personal.unlockAccount(eth.accounts[1])
+
+my_instance_storage.set.sendTransaction(5,{from:eth.accounts[1]})#设置数值
+
+
+miner.start(1)
+miner.stop()
+
+
